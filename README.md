@@ -31,10 +31,10 @@ A gasless, viral mini-app built on Base and Farcaster that lets you swipe on fre
 
 **Team Name**: FrenFire Team
 
-- **Your Name** - Developer, [Your Affiliation]
+- **Names** - Developer, Matteo Shafer
   - Role: Full-stack development, smart contracts, Base integration
-
-*Add your team members here*
+    Developer, Hunter Barthel
+  - Role: Full-stack development, smart contracts, Base integration
 
 ---
 
