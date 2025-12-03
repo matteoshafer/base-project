@@ -1,6 +1,81 @@
 # FrenFire 🔥 - Tinder for Frens
 
+**Base Track Hackathon Submission**
+
 A gasless, viral mini-app built on Base and Farcaster that lets you swipe on frens, match, and mint NFTs.
+
+---
+
+## Table of Contents
+
+- [Team Members](#team-members)
+- [Project Description](#project-description)
+- [Technical Summary](#technical-summary)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture Overview](#architecture-overview)
+- [Quick Start](#quick-start)
+- [Local Run Steps](#local-run-steps)
+- [Setup](#setup)
+- [Deployment](#deployment)
+- [Smart Contract](#smart-contract)
+- [Deployed Contract Address](#deployed-contract-address)
+- [Project Structure](#project-structure)
+- [How It Works](#how-it-works)
+- [Base Integration](#base-integration)
+- [License](#license)
+
+---
+
+## Team Members
+
+**Team Name**: FrenFire Team
+
+- **Your Name** - Developer, [Your Affiliation]
+  - Role: Full-stack development, smart contracts, Base integration
+
+*Add your team members here*
+
+---
+
+## Project Description
+
+FrenFire is a gasless, viral social discovery app that brings the Tinder experience to Farcaster. Users swipe through verified Farcaster profiles, match with mutual interests, and automatically mint unique 1/1 NFTs commemorating each connection—all without paying gas fees thanks to Base Paymaster.
+
+Built entirely on Base L2, FrenFire leverages smart wallets and account abstraction to create a frictionless onchain experience. When users match, the app generates beautiful SVG NFTs fusing both profile pictures, posts celebratory frames to Farcaster, and tracks a leaderboard of top "fren-makers." The platform combines Base's low fees and fast finality with Farcaster's social graph to create engaging, viral mechanics that make onchain interactions simple and fun.
+
+**Key Innovation**: First gasless "Tinder for Farcaster" with automatic NFT minting, fully built on Base infrastructure.
+
+---
+
+## Technical Summary
+
+### Problem Being Solved
+
+Current social discovery platforms lack onchain identity, verifiable connections, and meaningful digital ownership. Users want to discover new connections in the Farcaster ecosystem, but existing tools don't leverage blockchain for creating permanent, ownable relationship records. Additionally, gas fees create friction that prevents mainstream adoption of onchain social features.
+
+### Layer 2 Advantages
+
+**Base L2 provides critical advantages for FrenFire:**
+
+1. **Gasless UX**: Base Paymaster enables completely gasless transactions, removing the primary barrier to onchain adoption
+2. **Fast Finality**: Sub-second transaction finality ensures smooth, responsive user experience
+3. **Low Costs**: Even when users pay, Base's low fees make NFT minting and onchain storage economically viable
+4. **EVM Compatibility**: Full EVM compatibility means seamless integration with existing tools (Wagmi, Viem, smart wallets)
+5. **Scalability**: Base can handle millions of users, essential for a viral social app
+
+### EVM Stack Usage
+
+FrenFire leverages the full EVM stack:
+
+- **Smart Contracts**: Solidity contract (`FrenFire.sol`) for onchain swipe/match storage
+- **Wagmi + Viem**: TypeScript libraries for wallet interactions and contract calls
+- **Base Chain**: Deployed on Base Mainnet/Sepolia with full EVM compatibility
+- **ERC-4337**: Account abstraction via Base Paymaster for gasless transactions
+- **Smart Wallets**: Coinbase Smart Wallet support for seamless onboarding
+- **Web3 Libraries**: Full TypeScript/React integration with EVM tooling
+
+---
 
 ## Features
 
@@ -12,14 +87,66 @@ A gasless, viral mini-app built on Base and Farcaster that lets you swipe on fre
 - ✨ **Super Fren**: Premium feature with golden animation and guaranteed notifications
 - 🎉 **Confetti Celebrations**: Beautiful match animations
 
+---
+
 ## Tech Stack
 
 - **Framework**: Next.js 14 (App Router) + TypeScript
-- **Wallet**: Coinbase Smart Wallet + Base Paymaster
-- **UI Components**: Minikit (OnchainKit) + shadcn/ui + Tailwind CSS
-- **Storage**: Vercel KV (can be upgraded to onchain)
+- **Blockchain**: Base L2 (Mainnet/Sepolia)
+- **Wallet**: Wagmi + Viem (Coinbase Smart Wallet support)
+- **Gasless**: Base Paymaster (ERC-4337 Account Abstraction)
+- **UI Components**: shadcn/ui + Tailwind CSS
+- **Storage**: Vercel KV (upgradeable to onchain contract)
 - **APIs**: Neynar (Farcaster), Zora (NFTs)
 - **Animations**: Framer Motion + Canvas Confetti
+
+---
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Frontend (Next.js)                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │ Swipe Screen │  │ Leaderboard  │  │ Match Modal  │      │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │
+└─────────┼──────────────────┼──────────────────┼────────────┘
+          │                  │                  │
+          ▼                  ▼                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  API Routes (Next.js API)                    │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
+│  │ get-user │  │  swipe   │  │super-fren│  │leaderboard│   │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘    │
+└───────┼─────────────┼─────────────┼─────────────┼──────────┘
+        │             │             │             │
+        ▼             ▼             ▼             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    External Services                         │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
+│  │  Neynar  │  │ Vercel KV│  │   Zora   │  │  Base    │  │
+│  │   API    │  │ Storage  │  │   NFTs   │  │Paymaster │  │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  Base Blockchain (L2)                        │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │         FrenFire.sol Smart Contract                  │  │
+│  │  (Stores swipes, matches, match counts onchain)      │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Data Flow:**
+1. User connects wallet (Wagmi → Base Paymaster → Gasless)
+2. Frontend fetches Farcaster users via Neynar API
+3. User swipes → API saves to Vercel KV (or onchain contract)
+4. Match detected → NFT generated → Frame posted to Farcaster
+5. Leaderboard updates from onchain/offchain data
+
+---
 
 ## Quick Start
 
@@ -27,11 +154,9 @@ A gasless, viral mini-app built on Base and Farcaster that lets you swipe on fre
 # Clone and install
 npm install
 
-# Copy environment variables
-cp .env.example .env.local
-
-# Add your API keys to .env.local
-# (See Environment Variables section below)
+# Create .env.local file (see Setup section)
+# For demo mode, just add:
+# NEXT_PUBLIC_DEMO_MODE=true
 
 # Run development server
 npm run dev
@@ -39,57 +164,39 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000) and start swiping! 🔥
 
-## Setup
+---
 
-### 1. Install Dependencies
+## Local Run Steps
+
+### 1. Clone Repository
+
+```bash
+git clone <your-github-repo-url>
+cd base-project
+```
+
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Environment Variables
+### 3. Configure Environment
 
-**Create a `.env.local` file in the root directory** (same folder as `package.json`):
-
-**Quick way:** Copy the example file:
-```bash
-cp .env.local.example .env.local
-```
-
-Then edit `.env.local` and add your actual API keys.
+Create `.env.local` in the root directory:
 
 ```env
-# OnchainKit
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_onchainkit_api_key
-
-# Base Paymaster
+# Demo Mode (no APIs needed)
+NEXT_PUBLIC_DEMO_MODE=true
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_BASE_PAYMASTER_RPC=https://paymaster.base.org
 
-# Neynar API
-NEYNAR_API_KEY=your_neynar_api_key
-NEYNAR_SIGNER_UUID=your_neynar_signer_uuid
-
-# Vercel KV
-KV_REST_API_URL=your_vercel_kv_url
-KV_REST_API_TOKEN=your_vercel_kv_token
-
-# Zora (optional - for NFT minting)
-ZORA_CONTRACT_ADDRESS=0x...
-
-# Super Fren Contract (optional)
-NEXT_PUBLIC_SUPER_FREN_CONTRACT=0x...
-
-# App URL
-NEXT_PUBLIC_APP_URL=https://your-app.vercel.app
+# OR Full Setup (with APIs)
+NEYNAR_API_KEY=your_key
+KV_REST_API_URL=your_url
+KV_REST_API_TOKEN=your_token
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_key
 ```
-
-### 3. Get API Keys
-
-1. **OnchainKit API Key**: Get from [Coinbase Developer Portal](https://portal.cdp.coinbase.com/)
-2. **Neynar API Key**: Sign up at [Neynar](https://neynar.com) and get your API key
-3. **Neynar Signer UUID**: Create a signer in Neynar dashboard for posting frames
-4. **Vercel KV**: Create a KV database in your Vercel dashboard
-5. **Base Paymaster**: Use the public Base Paymaster RPC or set up your own
 
 ### 4. Run Development Server
 
@@ -97,22 +204,96 @@ NEXT_PUBLIC_APP_URL=https://your-app.vercel.app
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+### 5. Open Browser
+
+Navigate to `http://localhost:3000`
+
+### 6. Connect Wallet
+
+- Click "Connect Wallet"
+- Select Coinbase Wallet or MetaMask
+- Switch to Base network if needed
+
+---
+
+## Setup
+
+### Environment Variables
+
+**Create a `.env.local` file in the root directory** (same folder as `package.json`):
+
+```env
+# Base Configuration
+NEXT_PUBLIC_BASE_PAYMASTER_RPC=https://paymaster.base.org
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Demo Mode (no APIs needed)
+NEXT_PUBLIC_DEMO_MODE=true
+
+# Optional: Full API Setup
+NEYNAR_API_KEY=your_neynar_api_key
+NEYNAR_SIGNER_UUID=your_neynar_signer_uuid
+KV_REST_API_URL=your_vercel_kv_url
+KV_REST_API_TOKEN=your_vercel_kv_token
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_onchainkit_api_key
+
+# Optional: Contract Addresses
+NEXT_PUBLIC_FRENFIRE_CONTRACT=0x... # Deployed FrenFire contract
+NEXT_PUBLIC_SUPER_FREN_CONTRACT=0x... # Super Fren contract
+```
+
+### Get API Keys
+
+1. **Neynar API**: Sign up at [neynar.com](https://neynar.com)
+2. **Vercel KV**: Create KV database in [Vercel Dashboard](https://vercel.com)
+3. **OnchainKit**: Get from [Coinbase Developer Portal](https://portal.cdp.coinbase.com/)
+4. **Base Paymaster**: Use public RPC `https://paymaster.base.org`
+
+---
 
 ## Deployment
 
 ### Deploy to Vercel
 
-1. Push your code to GitHub
-2. Import your repository in Vercel
-3. Add all environment variables in Vercel dashboard
+1. Push code to GitHub
+2. Import repository in [Vercel](https://vercel.com)
+3. Add environment variables in Vercel dashboard
 4. Deploy!
 
 The `vercel.json` is already configured.
 
-### Custom Domain
+---
 
-Add your custom domain in Vercel settings and update `NEXT_PUBLIC_APP_URL` in environment variables.
+## Smart Contract
+
+A Solidity contract (`contracts/FrenFire.sol`) provides fully onchain storage:
+
+- Stores swipes and matches onchain
+- Tracks match counts per user
+- Emits events for indexing
+- Fully EVM compatible (Base L2)
+
+**To use the contract:**
+
+1. Deploy to Base Mainnet or Base Sepolia
+2. Set `NEXT_PUBLIC_FRENFIRE_CONTRACT` in env vars
+3. Update `lib/kv.ts` to use `lib/contract.ts`
+
+---
+
+## Deployed Contract Address
+
+**Base Mainnet**: `TBD` (Not yet deployed)
+
+**Base Sepolia**: `TBD` (Not yet deployed)
+
+*Contract deployment instructions:*
+1. Compile contract: `npx hardhat compile` (if using Hardhat)
+2. Deploy to Base: Use Remix, Hardhat, or Foundry
+3. Update this README with deployed address
+4. Add address to `.env.local`
+
+---
 
 ## Project Structure
 
@@ -126,7 +307,7 @@ Add your custom domain in Vercel settings and update `NEXT_PUBLIC_APP_URL` in en
 │   ├── leaderboard/      # Leaderboard page
 │   ├── layout.tsx        # Root layout
 │   ├── page.tsx          # Main swipe screen
-│   └── providers.tsx     # Wallet providers
+│   └── providers.tsx     # Wallet providers (Wagmi)
 ├── components/
 │   ├── swipe-screen.tsx  # Main swipe interface
 │   ├── user-card.tsx     # User profile card
@@ -134,69 +315,65 @@ Add your custom domain in Vercel settings and update `NEXT_PUBLIC_APP_URL` in en
 │   ├── super-fren-button.tsx # Super Fren feature
 │   └── match-celebration.tsx # Match celebration modal
 ├── lib/
+│   ├── wagmi.ts          # Wagmi configuration (Base chain)
 │   ├── neynar.ts         # Neynar API integration
 │   ├── kv.ts             # Vercel KV storage
-│   └── nft.ts            # NFT generation and minting
+│   ├── contract.ts       # Onchain contract interaction
+│   ├── nft.ts            # NFT generation and minting
+│   └── demo.ts           # Demo mode mock data
+├── contracts/
+│   └── FrenFire.sol      # Smart contract for onchain storage
 └── types/
     └── index.ts          # TypeScript types
 ```
 
+---
+
 ## How It Works
 
 1. **User Discovery**: Fetches random verified Farcaster users with >100 followers via Neynar API
-2. **Swipe Storage**: Stores swipes in Vercel KV (can be upgraded to onchain contract)
+2. **Swipe Storage**: Stores swipes in Vercel KV (upgradeable to onchain contract)
 3. **Match Detection**: Checks if both users frenned each other within 24 hours
-4. **NFT Minting**: On match, generates SVG NFT fusing both PFPs and mints on Zora (gasless)
+4. **NFT Minting**: On match, generates SVG NFT fusing both PFPs and mints on Zora (gasless via Base Paymaster)
 5. **Frame Posting**: Auto-posts a Frame to Farcaster announcing the match
 6. **Celebration**: Shows confetti animation and share options
 
-## Customization
+---
 
-### Change Match Window
+## Base Integration
 
-Edit `lib/kv.ts` - change the 24-hour window in `checkForMatch`:
+FrenFire leverages Base infrastructure extensively:
 
-```typescript
-Math.abs(swipe1.timestamp - swipe2.timestamp) < 86400000 // 24 hours
-```
+✅ **Base L2**: All transactions on Base Mainnet/Sepolia  
+✅ **Base Paymaster**: Gasless transactions via ERC-4337  
+✅ **Smart Wallets**: Coinbase Smart Wallet support  
+✅ **Wagmi + Viem**: Full EVM compatibility  
+✅ **Low Fees**: Base's low costs enable NFT minting  
+✅ **Fast Finality**: Sub-second transaction confirmation  
 
-### Customize NFT Design
+**Optional Integrations** (Future):
+- BaseScan API for onchain data queries
+- AgentKit for enhanced wallet features
+- x402 for payment infrastructure
 
-Edit `lib/nft.ts` - modify the `generateSVG` function to change NFT appearance.
-
-### Add Push Notifications
-
-Implement push notifications in `app/api/swipe/route.ts` and `app/api/super-fren/route.ts` using your preferred push service (e.g., Push Protocol, OneSignal).
-
-## Smart Contract (Optional)
-
-A Solidity contract is included in `contracts/FrenFire.sol` for fully onchain storage. To use it:
-
-1. Deploy the contract to Base
-2. Set `NEXT_PUBLIC_FRENFIRE_CONTRACT` in your env vars
-3. Update `lib/kv.ts` to use `lib/contract.ts` instead
-
-The contract stores swipes and matches onchain, making everything fully decentralized.
-
-## Roadmap
-
-- [x] Onchain contract for swipe storage
-- [ ] Push notifications integration (Push Protocol)
-- [ ] Enhanced NFT metadata and IPFS storage
-- [ ] Frame deep-linking improvements
-- [ ] Analytics dashboard
-- [ ] Mobile app (React Native)
-- [ ] Swipe history and matches page
+---
 
 ## License
 
 MIT
 
+---
+
 ## Support
 
-For issues and questions, open an issue on GitHub or reach out on Farcaster @yourhandle.
+For issues and questions:
+- Open an issue on GitHub
+- Reach out on Farcaster @yourhandle
 
 ---
 
-Built with 🔥 on Base
+**Built with 🔥 on Base**
 
+**GitHub Repository**: [Add your GitHub link here]
+
+**Demo Video**: [Add your demo video link here]

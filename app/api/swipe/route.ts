@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { saveSwipe, checkForMatch, createMatch, getSwipe } from "@/lib/kv";
 import { getUserByFid, getUserByVerification } from "@/lib/neynar";
 import { generateSVG, generateMetadata } from "@/lib/nft";
+import { isDemoMode, getMockUser } from "@/lib/demo";
+
+function isDemoModeCheck(): boolean {
+  return process.env.NEXT_PUBLIC_DEMO_MODE === "true" || 
+         !process.env.NEYNAR_API_KEY ||
+         !process.env.KV_REST_API_URL;
+}
 
 export async function POST(request: Request) {
   try {
@@ -26,32 +33,61 @@ export async function POST(request: Request) {
       }
     }
 
+    // In demo mode, use a mock FID based on address
+    if (!fromFid && isDemoModeCheck()) {
+      // Generate a consistent FID from address for demo
+      fromFid = address ? parseInt(address.slice(2, 10), 16) % 10000 + 1000 : 9999;
+    }
+
     if (!fromFid) {
       return NextResponse.json(
-        { error: "Missing user ID. Please connect your Farcaster account." },
+        { error: "Missing user ID. In demo mode, this should not happen. Please check your wallet connection." },
         { status: 401 }
       );
     }
 
-    // Save swipe
-    await saveSwipe({
-      fromFid,
-      toFid,
-      action,
-      timestamp: Date.now(),
-    });
+    // Save swipe (skip in demo mode if KV is not available)
+    try {
+      await saveSwipe({
+        fromFid,
+        toFid,
+        action,
+        timestamp: Date.now(),
+      });
+    } catch (kvError) {
+      if (!isDemoModeCheck()) {
+        throw kvError;
+      }
+      // In demo mode, continue without saving to KV
+      console.log("Demo mode: Skipping KV save");
+    }
 
     // Check for match if action is "fren"
     if (action === "fren") {
-      const isMatch = await checkForMatch(fromFid, toFid);
+      let isMatch = false;
+      try {
+        isMatch = await checkForMatch(fromFid, toFid);
+      } catch (matchError) {
+        if (!isDemoModeCheck()) {
+          throw matchError;
+        }
+        // In demo mode, simulate matches occasionally (20% chance)
+        isMatch = Math.random() < 0.2;
+      }
 
       if (isMatch) {
         // Create match
         const match = await createMatch(fromFid, toFid);
 
         // Get user info for NFT
-        const user1 = await getUserByFid(fromFid);
-        const user2 = await getUserByFid(toFid);
+        let user1 = await getUserByFid(fromFid);
+        let user2 = await getUserByFid(toFid);
+
+        // Fallback to mock users in demo mode
+        if (isDemoModeCheck()) {
+          if (!user1) user1 = getMockUser();
+          if (!user2) user2 = getMockUser();
+        }
 
         if (user1 && user2) {
           // Generate SVG

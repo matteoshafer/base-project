@@ -1,6 +1,11 @@
 import { kv } from "@vercel/kv";
 import { Swipe, Match } from "@/types";
 
+function isDemoModeCheck(): boolean {
+  return process.env.NEXT_PUBLIC_DEMO_MODE === "true" || 
+         !process.env.KV_REST_API_URL;
+}
+
 const SWIPE_PREFIX = "swipe:";
 const MATCH_PREFIX = "match:";
 const MATCH_COUNTER_KEY = "match_counter";
@@ -8,11 +13,30 @@ const USER_MATCHES_PREFIX = "user_matches:";
 const PENDING_MATCH_PREFIX = "pending_match:";
 
 export async function saveSwipe(swipe: Swipe): Promise<void> {
+  if (isDemoModeCheck() && !process.env.KV_REST_API_URL) {
+    // In demo mode without KV, use in-memory storage (lost on restart)
+    if (typeof window === 'undefined') {
+      // Server-side: use a simple Map (will be lost on restart)
+      return;
+    }
+    // Client-side: use localStorage as fallback
+    const key = `${SWIPE_PREFIX}${swipe.fromFid}:${swipe.toFid}`;
+    localStorage.setItem(key, JSON.stringify(swipe));
+    return;
+  }
   const key = `${SWIPE_PREFIX}${swipe.fromFid}:${swipe.toFid}`;
   await kv.set(key, swipe, { ex: 86400 * 2 }); // 2 days TTL
 }
 
 export async function getSwipe(fromFid: number, toFid: number): Promise<Swipe | null> {
+  if (isDemoModeCheck() && !process.env.KV_REST_API_URL) {
+    if (typeof window !== 'undefined') {
+      const key = `${SWIPE_PREFIX}${fromFid}:${toFid}`;
+      const stored = localStorage.getItem(key);
+      return stored ? JSON.parse(stored) : null;
+    }
+    return null;
+  }
   const key = `${SWIPE_PREFIX}${fromFid}:${toFid}`;
   return await kv.get(key);
 }

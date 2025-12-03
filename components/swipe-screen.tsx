@@ -6,7 +6,7 @@ import { FarcasterUser, Cast } from "@/types";
 import { UserCard } from "./user-card";
 import { ActionButtons } from "./action-buttons";
 import { MatchCelebration } from "./match-celebration";
-import { useUser } from "@coinbase/onchainkit/react";
+// useUser replaced with useAccount from wagmi
 
 export function SwipeScreen() {
   const [currentUser, setCurrentUser] = useState<FarcasterUser | null>(null);
@@ -15,7 +15,6 @@ export function SwipeScreen() {
   const [swiping, setSwiping] = useState(false);
   const [match, setMatch] = useState<any>(null);
   const { address } = useAccount();
-  const { user } = useUser();
 
   useEffect(() => {
     if (address) {
