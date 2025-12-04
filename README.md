@@ -33,7 +33,7 @@ A gasless, viral mini-app built on Base and Farcaster that lets you swipe on fre
 
 - **Names** - Developer, Matteo Shafer
   - Role: Full-stack development, smart contracts, Base integration
-    Developer, Hunter Barthel
+- Developer, Hunter Barthel
   - Role: Full-stack development, smart contracts, Base integration
 
 ---
