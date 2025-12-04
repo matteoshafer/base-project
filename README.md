@@ -32,7 +32,7 @@ A gasless, viral mini-app built on Base and Farcaster that lets you swipe on fre
 **Team Name**: FrenBase Team
 
 - **Names**
-- - Developer, Matteo Shafer
+-  Developer, Matteo Shafer
   - Role: Full-stack development, smart contracts, Base integration
 - Developer, Hunter Barthel
   - Role: Full-stack development, smart contracts, Base integration
