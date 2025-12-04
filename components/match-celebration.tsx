@@ -61,7 +61,7 @@ export function MatchCelebration({ match, onClose }: MatchCelebrationProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "FrenFire Match! 🔥",
+          title: "FrenBase Match! 🔥",
           text: shareText,
           url: window.location.href,
         });

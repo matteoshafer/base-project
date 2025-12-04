@@ -121,7 +121,7 @@ export async function publishFrame(
           url: imageUrl,
         },
       ],
-      channelId: "frenfire",
+      channelId: "frenbase",
     });
 
     // Note: Frame creation requires additional setup with Neynar

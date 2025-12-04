@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
  * Deep link handler for Farcaster frames
  * Redirects to main app
  */
-export default function FrenFireDeepLink() {
+export default function FrenBaseDeepLink() {
   const router = useRouter();
 
   useEffect(() => {

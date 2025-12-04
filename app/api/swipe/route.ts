@@ -122,7 +122,7 @@ export async function POST(request: Request) {
               body: JSON.stringify({
                 text: frameText,
                 imageUrl: svgDataUrl,
-                buttonUrl: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/frenfire`,
+                buttonUrl: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/frenbase`,
               }),
             });
           } catch (frameError) {

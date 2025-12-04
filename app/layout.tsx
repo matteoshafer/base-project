@@ -6,10 +6,10 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FrenFire 🔥 | Tinder for Frens",
+  title: "FrenBase 🔥 | Tinder for crypto frens",
   description: "Find your frens on Farcaster. Swipe, match, mint NFTs, and build your degen network.",
   openGraph: {
-    title: "FrenFire 🔥 | Tinder for Frens",
+    title: "FrenBase 🔥 | Tinder for crypto frens",
     description: "Find your frens on Farcaster. Swipe, match, mint NFTs, and build your degen network.",
     type: "website",
   },

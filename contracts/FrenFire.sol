@@ -2,11 +2,11 @@
 pragma solidity ^0.8.20;
 
 /**
- * @title FrenFire
+ * @title FrenBase
  * @notice Simple onchain storage for swipes and matches
  * @dev Can be used as an alternative to Vercel KV for fully onchain storage
  */
-contract FrenFire {
+contract FrenBase {
     struct Swipe {
         uint256 fromFid;
         uint256 toFid;

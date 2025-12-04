@@ -52,14 +52,14 @@ export function generateMetadata(
   imageUrl: string
 ): NFTMetadata {
   return {
-    name: `FrenFire Match #${matchNumber}`,
-    description: `${username1} and ${username2} became FRENS on FrenFire! 🔥`,
+    name: `FrenBase Match #${matchNumber}`,
+    description: `${username1} and ${username2} became FRENS on FrenBase! 🔥`,
     image: imageUrl,
     attributes: [
       { trait_type: "Match Number", value: matchNumber },
       { trait_type: "Fren 1", value: username1 },
       { trait_type: "Fren 2", value: username2 },
-      { trait_type: "Platform", value: "FrenFire" },
+      { trait_type: "Platform", value: "FrenBase" },
     ],
   };
 }

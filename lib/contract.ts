@@ -1,8 +1,8 @@
 import { createPublicClient, http, createWalletClient, custom } from "viem";
 import { base } from "viem/chains";
 
-// FrenFire Contract ABI (simplified)
-const FRENFIRE_ABI = [
+// FrenBase Contract ABI (simplified)
+const FRENBASE_ABI = [
   {
     inputs: [
       { internalType: "uint256", name: "fromFid", type: "uint256" },
@@ -30,7 +30,7 @@ const FRENFIRE_ABI = [
           { internalType: "uint256", name: "timestamp", type: "uint256" },
           { internalType: "string", name: "nftTokenId", type: "string" },
         ],
-        internalType: "struct FrenFire.Match",
+        internalType: "struct FrenBase.Match",
         name: "",
         type: "tuple",
       },
@@ -40,8 +40,8 @@ const FRENFIRE_ABI = [
   },
 ] as const;
 
-const FRENFIRE_CONTRACT_ADDRESS =
-  process.env.NEXT_PUBLIC_FRENFIRE_CONTRACT ||
+const FRENBASE_CONTRACT_ADDRESS =
+  process.env.NEXT_PUBLIC_FRENBASE_CONTRACT ||
   "0x0000000000000000000000000000000000000000";
 
 export async function recordSwipeOnchain(
@@ -53,8 +53,8 @@ export async function recordSwipeOnchain(
 ): Promise<string | null> {
   try {
     const hash = await walletClient.writeContract({
-      address: FRENFIRE_CONTRACT_ADDRESS as `0x${string}`,
-      abi: FRENFIRE_ABI,
+      address: FRENBASE_CONTRACT_ADDRESS as `0x${string}`,
+      abi: FRENBASE_ABI,
       functionName: "recordSwipe",
       args: [BigInt(fromFid), BigInt(toFid), isFren, isSuperFren],
     });
@@ -77,8 +77,8 @@ export async function getMatchOnchain(
     });
 
     const match = await publicClient.readContract({
-      address: FRENFIRE_CONTRACT_ADDRESS as `0x${string}`,
-      abi: FRENFIRE_ABI,
+      address: FRENBASE_CONTRACT_ADDRESS as `0x${string}`,
+      abi: FRENBASE_ABI,
       functionName: "getMatch",
       args: [BigInt(fid1), BigInt(fid2)],
     });

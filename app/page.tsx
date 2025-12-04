@@ -25,9 +25,9 @@ export default function Home() {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-              FrenFire 🔥
+              FrenBase 🔥
             </h1>
-            <p className="text-sm text-gray-600">Tinder for Frens</p>
+            <p className="text-sm text-gray-600">Tinder for crypto frens</p>
           </div>
           <div className="flex gap-4 items-center">
             <Link

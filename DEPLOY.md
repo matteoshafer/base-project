@@ -17,7 +17,7 @@
 ```bash
 git init
 git add .
-git commit -m "Initial commit: FrenFire app"
+git commit -m "Initial commit: FrenBase app"
 git remote add origin <your-github-repo>
 git push -u origin main
 ```

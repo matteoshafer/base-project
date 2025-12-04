@@ -1,13 +1,13 @@
-# FrenFire Project Structure
+# FrenBase Project Structure
 
 ## Overview
 
-FrenFire is a complete, gasless "Tinder for Frens" mini-app built on Base and Farcaster.
+FrenBase is a complete, gasless "Tinder for crypto frens" mini-app built on Base and Farcaster.
 
 ## Directory Structure
 
 ```
-frenfire/
+frenbase/
 ├── app/                          # Next.js 14 App Router
 │   ├── api/                      # API Routes
 │   │   ├── get-user/            # Fetch random Farcaster users
@@ -15,7 +15,7 @@ frenfire/
 │   │   ├── super-fren/           # Handle Super Fren payments
 │   │   ├── leaderboard/         # Get leaderboard data
 │   │   └── publish-frame/        # Publish frames to Farcaster
-│   ├── frenfire/                 # Deep link handler for frames
+│   ├── frenbase/                 # Deep link handler for frames
 │   ├── leaderboard/              # Leaderboard page
 │   ├── layout.tsx                # Root layout
 │   ├── page.tsx                  # Main swipe screen
@@ -44,7 +44,7 @@ frenfire/
 │   └── index.ts                  # Type definitions
 │
 ├── contracts/                    # Smart Contracts
-│   └── FrenFire.sol              # Onchain storage contract
+│   └── FrenBase.sol              # Onchain storage contract
 │
 ├── public/                        # Static Assets
 │
@@ -106,7 +106,7 @@ frenfire/
 ### Option 2: Onchain Contract
 - Fully decentralized
 - More expensive (but gasless with paymaster)
-- Located in `contracts/FrenFire.sol` and `lib/contract.ts`
+- Located in `contracts/FrenBase.sol` and `lib/contract.ts`
 
 ## API Integrations
 

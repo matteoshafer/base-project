@@ -33,7 +33,7 @@
    - [ ] Format Project Description (≤250 words)
 
 2. **Contract Deployment**:
-   - [ ] Deploy `FrenFire.sol` to Base Mainnet or Base Sepolia
+   - [ ] Deploy `FrenBase.sol` to Base Mainnet or Base Sepolia
    - [ ] Add deployed address to README
    - [ ] Update env vars with contract address
 

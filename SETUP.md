@@ -33,8 +33,8 @@ KV_REST_API_TOKEN=your_vercel_kv_token_here
 # Optional: Super Fren Contract (if you deploy one)
 NEXT_PUBLIC_SUPER_FREN_CONTRACT=0x...
 
-# Optional: FrenFire Onchain Contract (if you deploy one)
-NEXT_PUBLIC_FRENFIRE_CONTRACT=0x...
+# Optional: FrenBase Onchain Contract (if you deploy one)
+NEXT_PUBLIC_FRENBASE_CONTRACT=0x...
 
 # App URL - Update after deployment
 NEXT_PUBLIC_APP_URL=http://localhost:3000

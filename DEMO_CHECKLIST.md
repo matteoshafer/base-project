@@ -58,7 +58,7 @@ npm run dev
 
 ## 🎤 Demo Script (2 minutes)
 
-1. **Opening (10s)**: "FrenFire is Tinder for Farcaster - gasless, viral, built on Base"
+1. **Opening (10s)**: "FrenBase is Tinder for crypto frens - gasless, viral, built on Base"
 
 2. **Wallet Connection (15s)**: Show wallet connect, highlight gasless
 

@@ -1,4 +1,4 @@
-# 🚀 FrenFire Hackathon Demo Guide
+# 🚀 FrenBase Hackathon Demo Guide
 
 ## Quick Start for Demo
 
@@ -85,7 +85,7 @@ If you don't have time to set up APIs, use demo mode:
 ## 🎤 Demo Talking Points
 
 ### Opening (30 seconds)
-> "FrenFire is Tinder for Farcaster - a gasless, viral mini-app that lets you swipe on frens, match, and mint NFTs. Built entirely on Base with Farcaster integration."
+> "FrenBase is Tinder for crypto frens - a gasless, viral mini-app that lets you swipe on frens, match, and mint NFTs. Built entirely on Base with Farcaster integration."
 
 ### Key Features to Highlight
 
@@ -213,7 +213,7 @@ If you don't have time to set up APIs, use demo mode:
    ```bash
    git init
    git add .
-   git commit -m "FrenFire hackathon demo"
+   git commit -m "FrenBase hackathon demo"
    git remote add origin <your-repo>
    git push -u origin main
    ```
