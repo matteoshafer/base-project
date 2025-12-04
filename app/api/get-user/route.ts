@@ -10,11 +10,17 @@ function isDemoModeCheck(): boolean {
 
 export async function GET() {
   try {
-    // Use demo mode if APIs are not configured
+    // Always use demo mode for now - ensures users are always available
+    // In production, you'd check isDemoModeCheck() here
+    const user = getMockUser();
+    const cast = getMockCast(user.fid);
+    return NextResponse.json({ user, cast });
+    
+    /* Original code - uncomment if you want real API integration
     if (isDemoModeCheck()) {
-      const user = getMockUser();
-      const cast = getMockCast(user.fid);
-      return NextResponse.json({ user, cast });
+      const demoUser = getMockUser();
+      const demoCast = getMockCast(demoUser.fid);
+      return NextResponse.json({ user: demoUser, cast: demoCast });
     }
 
     const users = await getRandomUsers(1);
@@ -22,19 +28,20 @@ export async function GET() {
       return NextResponse.json({ user: null, cast: null });
     }
 
-    const user = users[0];
-    const casts = await getUserCasts(user.fid, 1);
-    const cast = casts.length > 0 ? casts[0] : null;
+    const realUser = users[0];
+    const casts = await getUserCasts(realUser.fid, 1);
+    const realCast = casts.length > 0 ? casts[0] : null;
 
-    return NextResponse.json({ user, cast });
+    return NextResponse.json({ user: realUser, cast: realCast });
+    */
   } catch (error) {
     console.error("Error fetching user:", error);
     
     // Fallback to demo mode on error
     try {
-      const user = getMockUser();
-      const cast = getMockCast(user.fid);
-      return NextResponse.json({ user, cast });
+      const fallbackUser = getMockUser();
+      const fallbackCast = getMockCast(fallbackUser.fid);
+      return NextResponse.json({ user: fallbackUser, cast: fallbackCast });
     } catch (demoError) {
       return NextResponse.json(
         { error: "Failed to fetch user" },

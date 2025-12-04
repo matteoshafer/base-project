@@ -12,14 +12,26 @@ interface UserCardProps {
 export function UserCard({ user, cast }: UserCardProps) {
   return (
     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden mb-6">
-      <div className="relative h-96 bg-gradient-to-b from-orange-100 to-red-100">
-        <Image
-          src={user.pfp_url || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='40' fill='%23999' text-anchor='middle' dy='.3em'%3E👤%3C/text%3E%3C/svg%3E"}
-          alt={user.username}
-          fill
-          className="object-cover"
-          unoptimized
-        />
+      <div className="relative h-96 bg-gradient-to-b from-orange-100 to-red-100 flex items-center justify-center">
+        {user.pfp_url ? (
+          <Image
+            src={user.pfp_url}
+            alt={user.username}
+            width={400}
+            height={400}
+            className="object-cover w-full h-full"
+            unoptimized
+            onError={(e) => {
+              // Fallback to default avatar if image fails to load
+              const target = e.target as HTMLImageElement;
+              target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23FF6B35'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dy='.3em'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E";
+            }}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-400 to-red-500">
+            <span className="text-8xl">🔥</span>
+          </div>
+        )}
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 text-sm font-medium">
           <Users className="w-4 h-4" />
           {user.follower_count.toLocaleString()}
