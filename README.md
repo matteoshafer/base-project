@@ -369,7 +369,9 @@ MIT
 
 For issues and questions:
 - Open an issue on GitHub
-- Reach out on Farcaster @yourhandle
+- Email us at
+  mshafe01@calpoly.edu
+  hunterbarthel17@calpoly.edu
 
 ---
 
