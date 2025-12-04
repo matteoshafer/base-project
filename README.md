@@ -375,6 +375,6 @@ For issues and questions:
 
 **Built with 🔥 on Base**
 
-**GitHub Repository**: (https://github.com/matteoshafer/base-project/tree/main)
+**GitHub Repository**: [https://github.com/matteoshafer/base-project/tree/main]
 
 **Demo Video**: [Add your demo video link here]
