@@ -379,4 +379,4 @@ For issues and questions:
 
 **GitHub Repository**: [https://github.com/matteoshafer/base-project/tree/main]
 
-**Demo Video**: [Add your demo video link here]
+**Demo Video**: [https://youtu.be/LSZB73aH5ZY]
