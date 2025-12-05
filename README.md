@@ -370,8 +370,8 @@ MIT
 For issues and questions:
 - Open an issue on GitHub
 - Email us at
-  mshafe01@calpoly.edu
-  hunterbarthel17@calpoly.edu
+  matteoshafer@gmail.com
+  hunterbarthel17@gmail.com
 
 ---
 
